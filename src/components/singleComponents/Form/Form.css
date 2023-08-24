@@ -1,0 +1,25 @@
+.form__btn {
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.form__input-wrapper {
+  flex-grow: 1;
+}
+
+.form__btn:hover {
+  cursor: pointer;
+}
+
+.form__btn_disabled {
+  opacity: 0.2;
+  cursor: unset;
+}
+
+.form__btn_disabled:hover {
+  cursor: unset;
+  opacity: 0.2;
+}

@@ -1,0 +1,18 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.app {
+  margin: 0 auto;
+  font-family: 'Inter', 'SuisseIntl', 'Arial', sans-serif;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

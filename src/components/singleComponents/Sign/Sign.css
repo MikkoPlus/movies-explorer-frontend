@@ -1,0 +1,119 @@
+.sign {
+  padding-top: 70px;
+  margin: 0 auto;
+  width: 396px;
+}
+
+.sign__title {
+  color: #000;
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  margin: 37px 0 42px;
+}
+
+.sign__label {
+  margin-top: 23px;
+}
+
+.sign__form {
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sign__label:first-of-type {
+  margin-top: 0;
+}
+
+.sign__replace-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 6px;
+  margin-top: 16px;
+}
+.sign__replace-text {
+  color: #a0a0a0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+}
+.sign__replace-link {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sign__button {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  position: relative;
+  bottom: 0;
+  border-radius: 3px;
+  background: #000;
+}
+@media (max-width: 768px) {
+  .sign {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    height: 100vh;
+  }
+
+  .sign .header {
+    position: static;
+  }
+
+  .sign__wrapper {
+    width: 100%;
+    margin-top: 77px;
+  }
+  .sign__title {
+    margin-top: 35px;
+  }
+}
+@media (max-width: 440px) {
+  .sign {
+    width: 100vw;
+    overflow: hidden;
+    height: 100vh;
+    padding: 0;
+    display: block;
+  }
+
+  .sign__wrapper {
+    padding: 56px 30px 30px;
+    height: calc(100vh - (86px));
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    width: auto;
+  }
+
+  .sign__logo {
+    margin: 0 auto;
+  }
+
+  .sign__title {
+    text-align: center;
+    margin: 47px 0 83px;
+  }
+
+  .sign__form {
+    flex: 0 1 100%;
+  }
+
+  .sign__button {
+    font-size: 12px;
+  }
+
+  .sign__replace-text {
+    font-size: 12px;
+  }
+}
