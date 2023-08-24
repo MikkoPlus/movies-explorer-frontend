@@ -1,7 +1,13 @@
 import Form from '../singleComponents/Form/Form';
+import Input from '../singleComponents/Input/Input';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+
 import './SearchForm.css';
 
 function SearchForm(props) {
+  const { values, handleChange, errors, isValid } = useFormAndValidation();
+  const { text } = values;
+
   return (
     <div className='search'>
       <div className='search__wrapper'>
@@ -9,9 +15,18 @@ function SearchForm(props) {
           additionalBtnClass='search__form-btn'
           additionalFormClass='search__form'
           btnText='Найти'
-          isFormValid={true}
+          isFormValid={isValid}
         >
-          <input placeholder='Фильм' type='text' className='search__input' />
+          <Input
+            placeholder='Фильм'
+            name='text'
+            type='text'
+            value={text}
+            onChange={handleChange}
+            error={errors.text}
+            labelClass='search__label'
+            inputClass='search__input'
+          />
         </Form>
         <div className='search__short-film'>
           <div className='search__radio-wrapper'>

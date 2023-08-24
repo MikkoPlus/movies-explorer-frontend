@@ -8,7 +8,7 @@ function MoviesCard({ isFavoriteMovie }) {
   const isSavedMoviesPage = location.pathname === '/saved-movies';
 
   return (
-    <div className='movie-card'>
+    <li className='movie-card'>
       <div className='movie-card__top'>
         <img src={movieImg} alt='Фильм' className='movie-card__img' />
         <div className='movie-card__controls'>
@@ -37,7 +37,7 @@ function MoviesCard({ isFavoriteMovie }) {
         <h4 className='movie-card__title'>33 слова о дизайне</h4>
         <p className='movie-card__duration'>1ч 17м</p>
       </div>
-    </div>
+    </li>
   );
 }
 

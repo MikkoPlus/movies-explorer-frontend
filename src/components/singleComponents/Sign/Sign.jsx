@@ -21,8 +21,8 @@ function Sign({
   }
 
   return (
-    <section className='sign'>
-      <div className='sign__wrapper'>
+    <div className='sign'>
+      <main className='sign__wrapper'>
         <Header isOnlyLogo={true} />
         <h3 className='sign__title'>{title}</h3>
         <Form
@@ -43,8 +43,8 @@ function Sign({
             {replaceLinkText}
           </Link>
         </div>
-      </div>
-    </section>
+      </main>
+    </div>
   );
 }
 

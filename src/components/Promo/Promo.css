@@ -2,10 +2,12 @@
   background: url('../../images/promo-picture.svg') no-repeat;
   background-position: 50% 45%;
   background-size: 320px;
+  background-color: #f3c1f8;
+  margin-top: -1px;
 }
 
 .promo__title {
-  padding: 198px 0px 224px;
+  padding: 198px 0px 225px;
   max-width: 730px;
   margin: 0 auto;
   text-align: center;

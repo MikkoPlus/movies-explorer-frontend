@@ -1,11 +1,12 @@
-import './Portfolio.css';
 import Title from '../singleComponents/Title/Title';
 import ListItem from '../singleComponents/ListItem/ListItem';
+
+import './Portfolio.css';
 
 function Portfolio(props) {
   return (
     <section className='portfolio'>
-      <Title text='Портфолио' additionalClass='protfolio__title' />
+      <Title text='Портфолио' additionalClass='portfolio__title' />
       <ul className='portfolio__list'>
         <ListItem
           text='Статичный сайт'

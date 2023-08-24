@@ -5,6 +5,7 @@
 .movies-cards__list {
   margin: 0;
   padding: 0;
+  list-style: none;
   display: grid;
   column-gap: 30px;
   row-gap: 57px;
@@ -21,6 +22,7 @@
   background-color: #f9f9f9;
   outline: none;
   border: none;
+  border-radius: 6px;
   padding: 11px 8px 9px;
   font-size: 12px;
   line-height: 16px;
@@ -63,7 +65,7 @@
 
 @media (max-width: 410px) {
   .movies-cards {
-    padding: 51px 0 43px;
+    padding: 49px 0 43px;
   }
   .movies-cards__add-btn {
     width: 240px;

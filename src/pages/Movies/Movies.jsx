@@ -16,27 +16,29 @@ function Movies({ isLoggedIn }) {
   return (
     <div className='movies'>
       <Header isLoggedIn={isLoggedIn} />
-      <SearchForm />
-      <Delimeter />
-      <MoviesCardList>
-        {isLoading && <Preloader />}
-        {!isLoading && (
-          <>
-            <MoviesCard />
-            <MoviesCard isFavoriteMovie={true} />
-            <MoviesCard isFavoriteMovie={true} />
-            <MoviesCard />
-            <MoviesCard isFavoriteMovie={true} />
-            <MoviesCard />
-            <MoviesCard />
-            <MoviesCard />
-            <MoviesCard />
-            <MoviesCard />
-            <MoviesCard />
-            <MoviesCard isFavoriteMovie={true} />
-          </>
-        )}
-      </MoviesCardList>
+      <main className='main'>
+        <SearchForm />
+        <Delimeter />
+        <MoviesCardList>
+          {isLoading && <Preloader />}
+          {!isLoading && (
+            <>
+              <MoviesCard />
+              <MoviesCard isFavoriteMovie={true} />
+              <MoviesCard isFavoriteMovie={true} />
+              <MoviesCard />
+              <MoviesCard isFavoriteMovie={true} />
+              <MoviesCard />
+              <MoviesCard />
+              <MoviesCard />
+              <MoviesCard />
+              <MoviesCard />
+              <MoviesCard />
+              <MoviesCard isFavoriteMovie={true} />
+            </>
+          )}
+        </MoviesCardList>
+      </main>
       <Footer />
     </div>
   );

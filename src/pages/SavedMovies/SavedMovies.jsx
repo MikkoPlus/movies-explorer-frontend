@@ -17,18 +17,20 @@ function SavedMovies({ isLoggedIn }) {
   return (
     <div className='saved-movies'>
       <Header isLoggedIn={isLoggedIn} />
-      <SearchForm />
-      <Delimeter />
-      <MoviesCardList>
-        {isLoading && <Preloader />}
-        {!isLoading && (
-          <>
-            <MoviesCard isFavoriteMovie={true} />
-            <MoviesCard isFavoriteMovie={true} />
-            <MoviesCard isFavoriteMovie={true} />
-          </>
-        )}
-      </MoviesCardList>
+      <main className='main'>
+        <SearchForm />
+        <Delimeter />
+        <MoviesCardList>
+          {isLoading && <Preloader />}
+          {!isLoading && (
+            <>
+              <MoviesCard isFavoriteMovie={true} />
+              <MoviesCard isFavoriteMovie={true} />
+              <MoviesCard isFavoriteMovie={true} />
+            </>
+          )}
+        </MoviesCardList>
+      </main>
       <Footer />
     </div>
   );

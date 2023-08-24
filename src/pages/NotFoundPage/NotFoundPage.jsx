@@ -10,14 +10,14 @@ function NotFoundPage(props) {
   }
 
   return (
-    <section className='not-found'>
+    <main className='not-found'>
       <h1 className='not-found__title'>
         <span>404</span> <br /> Страница не найдена
       </h1>
       <Link className='not-found__link' onClick={redirectToPreviousPage}>
         назад
       </Link>
-    </section>
+    </main>
   );
 }
 

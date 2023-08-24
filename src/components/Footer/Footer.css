@@ -83,17 +83,17 @@
 
   .footer__content {
     flex-direction: column;
-    row-gap: 28px;
+    row-gap: 31px;
     padding-bottom: 0;
   }
 
   .footer__links {
     order: 1;
     flex-direction: column;
-    row-gap: 10px;
+    row-gap: 15px;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 15px;
   }
   .footer__links a {
     font-size: 12px;

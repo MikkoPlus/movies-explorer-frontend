@@ -34,7 +34,7 @@ function Profile({ isLoggedIn, handleChangeProfile, handleLogOut }) {
   return (
     <section className='profile'>
       <Header isLoggedIn={isLoggedIn} isAppPage={true}></Header>
-      <div className='profile__wrapper'>
+      <main className='profile__wrapper'>
         <Title additionalClass='profile__title' text={`Привет, ${name}!`} />
         {!isEditModeOn && (
           <>
@@ -98,7 +98,7 @@ function Profile({ isLoggedIn, handleChangeProfile, handleLogOut }) {
             </p>
           </>
         )}
-      </div>
+      </main>
     </section>
   );
 }

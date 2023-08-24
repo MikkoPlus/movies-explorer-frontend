@@ -19,13 +19,13 @@ function Navigation({ isLoggedIn, isMenuVisible }) {
               isRedirectLink={true}
               link='/signup'
               text='Регистрация'
-              additionalClass='list-item__sign'
+              additionalClass='navigation__sign'
             />
             <ListItem
               isRedirectLink={true}
               link='/signin'
               text='Войти'
-              additionalClass='list-item__sign list-item__sign_button'
+              additionalClass='navigation__sign navigation__sign_button'
             />
           </ul>
         )}
@@ -37,31 +37,29 @@ function Navigation({ isLoggedIn, isMenuVisible }) {
                   isRedirectLink={true}
                   link='/'
                   text='Главная'
-                  additionalClass='list-item_logged-in list-item__home'
+                  additionalClass='list-item_logged-in navigation__home'
                 />
                 <ListItem
                   isRedirectLink={true}
                   link='/movies'
                   text='Фильмы'
-                  additionalClass='list-item_logged-in list-item__films'
+                  additionalClass='list-item_logged-in navigation__films'
                 />
                 <ListItem
                   isRedirectLink={true}
                   link='/saved-movies'
                   text='Сохранённые фильмы'
-                  additionalClass='list-item_logged-in list-item__saved-films'
+                  additionalClass='list-item_logged-in navigation__saved-films'
                 />
               </ul>
-              <div className='navigation__profile'>
-                <Link to='/profile' className='navigation__profile-link'>
-                  Аккаунт
-                </Link>
+              <Link to='/profile' className='navigation__profile'>
+                <span className='navigation__profile-link'>Аккаунт</span>
                 <img
                   src={profileIco}
                   alt='Профиль'
                   className='navigation__profile-ico'
                 />
-              </div>
+              </Link>
             </div>
           </>
         )}

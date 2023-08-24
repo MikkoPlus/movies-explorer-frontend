@@ -9,17 +9,18 @@
   justify-content: center;
   align-items: center;
   column-gap: 40px;
-  padding: 24px 0 23px;
+  padding: 24px 0 27px;
 }
 
 .nav-tab__item a {
+  color: #fff;
   font-size: 13px;
   text-decoration: underline;
 }
 
 @media (max-width: 768px) {
   .nav-tab__menu {
-    padding: 23px 0 24px;
+    padding: 23px 0 28px;
     column-gap: 40px;
   }
 }
@@ -31,5 +32,6 @@
 
   .nav-tab__menu {
     column-gap: 25px;
+    padding: 25px 0;
   }
 }

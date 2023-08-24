@@ -13,12 +13,15 @@ function Input({
   onChange,
   error,
   labelClass,
+  inputClass,
 }) {
   const [isDirty, setIsDirty] = useState(false);
 
   const labelClassName = labelClass
     ? `input-label ${labelClass}`
     : 'input-label';
+
+  const inputClassName = inputClass ? `input ${inputClass}` : 'input';
 
   return (
     <label className={labelClassName}>
@@ -27,7 +30,7 @@ function Input({
         required
         name={name}
         type={type}
-        className='input'
+        className={inputClassName}
         placeholder={placeholder}
         minLength={minLength}
         maxLength={maxLength}
@@ -36,7 +39,7 @@ function Input({
         onBlur={() => setIsDirty(true)}
       />
       {isDirty && (
-        <span id={`input-error`} className='input__text-error'>
+        <span id='input-error' className='input__text-error'>
           {error}
         </span>
       )}

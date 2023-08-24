@@ -1,10 +1,13 @@
 .header {
-  max-width: 1140px;
-  margin: 0 auto;
   background-color: #fff;
+}
+.header_pink {
+  background-color: #f3c1f8;
 }
 
 .header__wrapper {
+  max-width: 1140px;
+  margin: 0 auto;
   width: 100%;
 }
 

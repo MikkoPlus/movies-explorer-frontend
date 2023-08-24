@@ -7,6 +7,7 @@ function ListItem({
   link,
   text,
   additionalClass,
+
   children,
 }) {
   const listItemClass = `list-item ${additionalClass}`;
@@ -30,7 +31,12 @@ function ListItem({
         </a>
       )}
       {!isRedirectLink && !isAnchorLink && (
-        <a href={`${link}`} className='list-item__link'>
+        <a
+          href={`${link}`}
+          rel='noreferrer'
+          target='_blank'
+          className='list-item__link'
+        >
           {text}
         </a>
       )}

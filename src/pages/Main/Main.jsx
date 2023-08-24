@@ -11,16 +11,16 @@ import './Main.css';
 
 function Main({ isLoggedIn }) {
   return (
-    <div className='main'>
-      <div className='main__promo-seсtion'>
-        <Header isLoggedIn={isLoggedIn} />
+    <div className='landing'>
+      <Header isLoggedIn={isLoggedIn} />
+      <main className='main'>
         <Promo />
-      </div>
-      <NavTab />
-      <AboutProject />
-      <Techs />
-      <AboutMe />
-      <Portfolio />
+        <NavTab />
+        <AboutProject />
+        <Techs />
+        <AboutMe />
+        <Portfolio />
+      </main>
       <Footer />
     </div>
   );
