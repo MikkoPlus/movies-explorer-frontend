@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
-
+import { LoggedInContext } from '../../contexts/LoggedInContext';
+import { useContext } from 'react';
 import ListItem from '../singleComponents/ListItem/ListItem';
 import profileIco from '../../images/ico/profile-ico.svg';
 
 import './Navigation.css';
 
-function Navigation({ isLoggedIn, isMenuVisible }) {
+function Navigation({ isMenuVisible }) {
+  const isLoggedIn = useContext(LoggedInContext);
   const navClassName = `navigation${isLoggedIn ? ' navigation_logged-in' : ''}`;
 
   return (
@@ -17,15 +19,17 @@ function Navigation({ isLoggedIn, isMenuVisible }) {
           <ul className='navigation__list'>
             <ListItem
               isRedirectLink={true}
-              link='/signup'
+              link='/sign-up'
               text='Регистрация'
               additionalClass='navigation__sign'
+              additionalLinkClass='navigation__link'
             />
             <ListItem
               isRedirectLink={true}
-              link='/signin'
+              link='/sign-in'
               text='Войти'
-              additionalClass='navigation__sign navigation__sign_button'
+              additionalClass='navigation__sign'
+              additionalLinkClass='navigation__link_button'
             />
           </ul>
         )}

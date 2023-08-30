@@ -18,7 +18,7 @@
 }
 
 .sign__form {
-  height: 380px;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

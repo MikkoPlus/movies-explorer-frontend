@@ -7,10 +7,13 @@ function ListItem({
   link,
   text,
   additionalClass,
-
+  additionalLinkClass,
   children,
 }) {
   const listItemClass = `list-item ${additionalClass}`;
+  const listItemLinkClass = `list-item__link ${
+    additionalLinkClass ? additionalLinkClass : ''
+  }`;
 
   return (
     <li className={listItemClass}>
@@ -18,7 +21,7 @@ function ListItem({
         <NavLink
           to={`${link}`}
           className={({ isActive }) =>
-            `list-item__link${isActive ? ' list-item__link_active' : ''}`
+            `${listItemLinkClass}${isActive ? ' list-item__link_active' : ''}`
           }
         >
           <span>{text}</span>

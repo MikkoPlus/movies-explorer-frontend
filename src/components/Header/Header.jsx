@@ -6,8 +6,10 @@ import Burger from '../singleComponents/Burger/Burger';
 
 import './Header.css';
 
-function Header({ isLoggedIn, isOnlyLogo }) {
+function Header(props) {
   const location = useLocation();
+  const isOnlyLogo =
+    location.pathname === '/sign-in' || location.pathname === '/sign-up';
 
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   function switchMenuVisability() {
@@ -27,13 +29,13 @@ function Header({ isLoggedIn, isOnlyLogo }) {
           <img src={logo} alt='logo' className='header__logo' />
         </Link>
         {!isOnlyLogo && (
-          <Navigation isLoggedIn={isLoggedIn} isMenuVisible={isMenuVisible} />
-        )}
-        {isLoggedIn && (
-          <Burger
-            handleBurgerClick={switchMenuVisability}
-            isMenuVisible={isMenuVisible}
-          />
+          <>
+            <Navigation isMenuVisible={isMenuVisible} />
+            <Burger
+              handleBurgerClick={switchMenuVisability}
+              isMenuVisible={isMenuVisible}
+            />
+          </>
         )}
       </div>
     </header>

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ApiRequestLoadingContext } from '../../contexts/ApiRequestLoadingContext';
+import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
 
 import Header from '../../components/Header/Header';
 import SearchForm from '../../components/SearchForm/SearchForm';
@@ -11,12 +11,12 @@ import Preloader from '../../components/Preloader/Preloader';
 
 import './SavedMovies.css';
 
-function SavedMovies({ isLoggedIn }) {
-  const { isLoading } = useContext(ApiRequestLoadingContext);
+function SavedMovies() {
+  const { isLoading } = useContext(ApiSubmitFormContext);
 
   return (
     <div className='saved-movies'>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header />
       <main className='main'>
         <SearchForm />
         <Delimeter />

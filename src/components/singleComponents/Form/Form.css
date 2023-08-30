@@ -23,3 +23,11 @@
   cursor: unset;
   opacity: 0.2;
 }
+
+.form__error-message {
+  font-size: 14px;
+  text-align: center;
+  font-weight: 400;
+  color: #ff4062;
+  margin: 0 0 10px;
+}

@@ -9,10 +9,10 @@ import Footer from '../../components/Footer/Footer';
 
 import './Main.css';
 
-function Main({ isLoggedIn }) {
+function Main(props) {
   return (
     <div className='landing'>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header />
       <main className='main'>
         <Promo />
         <NavTab />

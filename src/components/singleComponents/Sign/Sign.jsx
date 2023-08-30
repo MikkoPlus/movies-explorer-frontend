@@ -12,25 +12,21 @@ function Sign({
   replaceLinkText,
   isFormValid,
   replaceLink,
+  formValues,
   children,
 }) {
-  function handleSubmitForm(evt) {
-    evt.preventDefault();
-
-    handleSubmit();
-  }
-
   return (
     <div className='sign'>
       <main className='sign__wrapper'>
         <Header isOnlyLogo={true} />
         <h3 className='sign__title'>{title}</h3>
         <Form
-          handleSubmitForm={handleSubmitForm}
+          handleSubmitForm={handleSubmit}
           btnText={btnText}
           isFormValid={isFormValid}
           additionalFormClass='sign__form'
           additionalBtnClass='sign__button'
+          formValues={formValues}
         >
           {children}
         </Form>
