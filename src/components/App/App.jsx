@@ -205,6 +205,8 @@ function App() {
           setCurrentUser({});
           navigate('/');
           localStorage.removeItem('movieQueryData');
+          localStorage.removeItem('savedMovieQueryData');
+          localStorage.removeItem('savedMovies');
           setMoviesInView([]);
           setIsShortFilm(false);
         }, 1300);
