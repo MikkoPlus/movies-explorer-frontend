@@ -5,3 +5,4 @@
 За основу был взять макет light-4
 
 Ссылка на пул реквест: https://github.com/MikkoPlus/movies-explorer-frontend/pull/2
+Ссылка на сайт: https://movie-hunter.nomoreparties.sbs/
