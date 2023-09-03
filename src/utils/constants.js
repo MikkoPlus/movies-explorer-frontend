@@ -10,6 +10,9 @@ export const errorMessages = {
   unauthorizedMsg: 'Непарвильная почта или пароль',
   forbidenMsg: 'Ошибка прав доступа',
   defaultMsg: 'Внутренняя ошибка сервера',
+  searchRequestIsEmptyMsg: 'Введите ключевое слово',
+  filmServiceIsNotAvalible:
+    'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз',
 };
 
 export const successMessages = {

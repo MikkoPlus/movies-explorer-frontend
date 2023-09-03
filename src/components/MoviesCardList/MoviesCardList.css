@@ -1,5 +1,5 @@
 .movies-cards {
-  padding: 80px 0;
+  padding: 80px 0 40px;
 }
 
 .movies-cards__list {
@@ -9,9 +9,9 @@
   display: grid;
   column-gap: 30px;
   row-gap: 57px;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   align-content: center;
-  justify-content: center;
+  justify-content: start;
   grid-auto-rows: 1fr;
 }
 
@@ -34,6 +34,15 @@
 }
 .movies-cards__add-btn:hover {
   opacity: 0.8;
+}
+
+.movies__error {
+  margin: 0;
+  font-size: 16px;
+  color: 000;
+  line-height: 1;
+  color: #000;
+  text-align: center;
 }
 
 @media (max-width: 1200px) {

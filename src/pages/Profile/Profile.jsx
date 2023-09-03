@@ -1,11 +1,13 @@
 import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 import Header from '../../components/Header/Header';
 import Title from '../../components/singleComponents/Title/Title';
 import Form from '../../components/singleComponents/Form/Form';
 import Input from '../../components/singleComponents/Input/Input';
+import Preloader from '../../components/Preloader/Preloader';
 
 import './Profile.css';
 
@@ -16,6 +18,7 @@ function Profile({
   handleLogOut,
 }) {
   const { name, email } = useContext(CurrentUserContext);
+  const { isLoading } = useContext(ApiSubmitFormContext);
   const { values, handleChange, errors, isValid, setIsValid, setValues } =
     useFormAndValidation();
 
@@ -68,7 +71,7 @@ function Profile({
             </ul>
           </>
         )}
-
+        <Preloader onlyLoader={false} isLoading={isLoading} />
         {isEditModeOn && (
           <>
             <Form

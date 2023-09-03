@@ -1,35 +1,57 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
 
 import Header from '../../components/Header/Header';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import Delimeter from '../../components/singleComponents/Delimeter/Delimeter';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
-import MoviesCard from '../../components/MoviesCard/MoviesCard';
 import Footer from '../../components/Footer/Footer';
-import Preloader from '../../components/Preloader/Preloader';
 
 import './SavedMovies.css';
 
-function SavedMovies() {
+function SavedMovies({
+  movies,
+  isFilmNotFound,
+  handleDeleteMovie,
+  isFilmAdded,
+  changeDurationSearchQuery,
+  isShortFilm,
+  handleSearchMovies,
+}) {
   const { isLoading } = useContext(ApiSubmitFormContext);
+  const [moviesInView, setMoviesInView] = useState([]);
+  const [previousQueryText, setPreviousQueryText] = useState('');
+
+  useEffect(() => {
+    setMoviesInView(movies);
+  }, [movies, isFilmAdded]);
+
+  useEffect(() => {
+    const previousQuery = JSON.parse(
+      localStorage.getItem('savedMovieQueryData')
+    );
+    if (previousQuery) {
+      setPreviousQueryText(previousQuery.query);
+    }
+  }, []);
 
   return (
     <div className='saved-movies'>
       <Header />
       <main className='main'>
-        <SearchForm />
+        <SearchForm
+          searchMovieHandler={handleSearchMovies}
+          changeDurationSearchQuery={changeDurationSearchQuery}
+          isShortFilm={isShortFilm}
+          previousQueryText={previousQueryText}
+        />
         <Delimeter />
-        <MoviesCardList>
-          {isLoading && <Preloader />}
-          {!isLoading && (
-            <>
-              <MoviesCard isFavoriteMovie={true} />
-              <MoviesCard isFavoriteMovie={true} />
-              <MoviesCard isFavoriteMovie={true} />
-            </>
-          )}
-        </MoviesCardList>
+        <MoviesCardList
+          movieList={moviesInView}
+          isLoading={isLoading}
+          isFilmNotFound={isFilmNotFound}
+          handleCardButtonClick={handleDeleteMovie}
+        />
       </main>
       <Footer />
     </div>

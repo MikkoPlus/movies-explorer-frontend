@@ -2,6 +2,7 @@
   padding-top: 70px;
   margin: 0 auto;
   width: 396px;
+  position: relative;
 }
 
 .sign__title {
