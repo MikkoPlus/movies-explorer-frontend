@@ -2,7 +2,7 @@ function filterMovieByQuery(movieList, query) {
   const moviesArr = [];
   let req = query.toLowerCase();
 
-  movieList.map((movie) => {
+  movieList?.map((movie) => {
     const { nameRU, nameEN } = movie;
 
     if (
@@ -19,7 +19,7 @@ function filterMovieByQuery(movieList, query) {
 function filterMovieByDuration(movieList) {
   const moviesArr = [];
 
-  movieList.map((movie) => {
+  movieList?.map((movie) => {
     const { duration } = movie;
     if (Number(duration) <= 40) {
       moviesArr.push(movie);
