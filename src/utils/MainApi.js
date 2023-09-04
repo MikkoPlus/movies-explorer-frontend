@@ -1,5 +1,4 @@
-// export const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs';
-export const BASE_URL = 'http://localhost:3001';
+export const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs';
 
 const request = (url, options) => {
   return fetch(`${BASE_URL}/${url}`, {
@@ -17,7 +16,7 @@ export const register = ({ email, password, name }) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Origin': 'https://movie-hunter.nomoreparties.sbs',
     },
     body: JSON.stringify({ email, password, name }),
   });
@@ -28,7 +27,7 @@ export const login = ({ email, password }) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Origin': 'https://movie-hunter.nomoreparties.sbs',
     },
     body: JSON.stringify({ email, password }),
   });
@@ -39,7 +38,7 @@ export const checkTokenValidity = () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Origin': 'https://movie-hunter.nomoreparties.sbs',
     },
   });
 };
@@ -49,7 +48,7 @@ export const signout = () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Origin': 'https://movie-hunter.nomoreparties.sbs',
     },
   });
 };
@@ -59,7 +58,7 @@ export const updateProfileData = ({ email, name }) => {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Access-Control-Allow-Origin': 'https://movie-hunter.nomoreparties.sbs',
     },
     body: JSON.stringify({ email, name }),
   });
