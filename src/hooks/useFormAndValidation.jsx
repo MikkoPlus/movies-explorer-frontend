@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { usernameRegexp, errorMessages } from '../utils/constants';
+import * as EmailValidator from 'email-validator';
 
 export function useFormAndValidation() {
   const [values, setValues] = useState({});
@@ -15,6 +16,11 @@ export function useFormAndValidation() {
       setErrors({
         ...errors,
         [name]: errorMessages.invalidUsernameMsg,
+      });
+    } else if (name === 'email' && !EmailValidator.validate(value)) {
+      setErrors({
+        ...errors,
+        [name]: errorMessages.invalidEmailMsg,
       });
     }
 

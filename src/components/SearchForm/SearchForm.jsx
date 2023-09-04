@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Form from '../singleComponents/Form/Form';
 import Input from '../singleComponents/Input/Input';
 import { errorMessages } from '../../utils/constants';
@@ -9,15 +10,25 @@ function SearchForm({
   searchMovieHandler,
   changeDurationSearchQuery,
   isShortFilm,
-  previousQueryText,
 }) {
-  const { values, handleChange, errors, isValid } = useFormAndValidation();
+  const { values, handleChange, errors } = useFormAndValidation();
   const { text } = values;
   const { searchRequestIsEmptyMsg } = errorMessages;
 
+  const location = useLocation();
+
   useEffect(() => {
-    values.text = previousQueryText;
-  }, [previousQueryText]);
+    const { pathname } = location;
+    if (pathname === '/movies') {
+      const query = JSON.parse(localStorage.getItem('movieQueryData')).query;
+      values.text = query;
+    } else if (pathname === '/saved-movies') {
+      const query = JSON.parse(
+        localStorage.getItem('savedMovieQueryData')
+      ).query;
+      values.text = query;
+    }
+  }, []);
 
   return (
     <div className='search'>
@@ -26,10 +37,10 @@ function SearchForm({
           additionalBtnClass='search__form-btn'
           additionalFormClass='search__form'
           btnText='Найти'
-          isFormValid={isValid}
+          isFormValid={true}
           handleSubmitForm={searchMovieHandler}
           formValues={values}
-          novalidate
+          novalidate={true}
         >
           <Input
             placeholder='Фильм'

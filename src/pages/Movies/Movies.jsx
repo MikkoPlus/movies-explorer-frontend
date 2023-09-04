@@ -16,6 +16,7 @@ function Movies({
   isShortFilm,
   isFilmNotFound,
   handleSaveFilm,
+  filmServiceAreNotAvalible,
 }) {
   const { isLoading } = useContext(ApiSubmitFormContext);
   const [moviesInView, setMoviesInView] = useState([]);
@@ -99,6 +100,7 @@ function Movies({
           handleAddButtonClick={onButtonClick}
           isFilmNotFound={isFilmNotFound}
           handleCardButtonClick={handleSaveFilm}
+          filmServiceAreNotAvalible={filmServiceAreNotAvalible}
         />
       </main>
       <Footer />

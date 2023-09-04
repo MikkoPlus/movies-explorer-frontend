@@ -15,7 +15,6 @@ import SavedMovies from '../../pages/SavedMovies/SavedMovies';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import ProtectedRouteElement from '../../components/singleComponents/ProtectedRouteElement/ProtectedRouteElement';
 import Popup from '../singleComponents/Popup/Popup';
-import NotFoundError from '../../utils/NotFoundError.js';
 
 import * as MainApi from '../../utils/MainApi.js';
 import * as MoviesApi from '../../utils/MoviesApi.js';
@@ -37,8 +36,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isEditModeOn, setIsEditModeOn] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isFilmNotFound, SetIsFilmNotFound] = useState(false);
-
+  const [isFilmNotFound, setIsFilmNotFound] = useState(false);
+  const [filmServiceAreNotAvalible, setFilmServiceAreNotAvalible] =
+    useState(false);
   const [moviesInView, setMoviesInView] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [isControlBtnUsed, setIsControlBtnUsed] = useState(false);
@@ -83,6 +83,7 @@ function App() {
   }
 
   function handleRegister(formValues) {
+    const { email, password } = formValues;
     setFormSubmitStateData({ ...formSubmitStateData, isLoading: true });
     MainApi.register(formValues)
       .then(() => {
@@ -97,7 +98,18 @@ function App() {
         }, 300);
         setTimeout(() => {
           setIsPopupOpen(false);
-          navigate('/sign-in');
+
+          MainApi.login({ email, password })
+            .then((data) => {
+              if (data) {
+                checkToken();
+                setIsLoggedIn(true);
+                navigate('/movies');
+              }
+            })
+            .catch((err) => {
+              errorHandler(err);
+            });
         }, 1300);
       })
       .catch((err) => {
@@ -207,6 +219,7 @@ function App() {
           localStorage.removeItem('movieQueryData');
           localStorage.removeItem('savedMovieQueryData');
           localStorage.removeItem('savedMovies');
+          localStorage.removeItem('moviesDB');
           setMoviesInView([]);
           setIsShortFilm(false);
         }, 1300);
@@ -242,7 +255,6 @@ function App() {
           name: data.name,
           email: data.email,
         });
-        localStorage.setItem('jwt', data.jwt);
       })
       .catch((err) => {
         errorHandler(err);
@@ -256,8 +268,7 @@ function App() {
   }
 
   // Movies api
-  function checkIsListOfMovies(movieList) {
-    let storageData = JSON.parse(localStorage.getItem('movieQueryData'));
+  function checkIsFavoriteMoviesIn(movieList) {
     movieList.forEach((movie) => {
       if (handleCheckIsFilmFavorite(movie.id)) {
         movie['isFavoriteMovie'] = true;
@@ -266,11 +277,6 @@ function App() {
       }
       return movie;
     });
-    storageData = {
-      ...storageData,
-      films: moviesInView,
-    };
-    localStorage.setItem('movieQueryData', JSON.stringify(storageData));
     return movieList;
   }
 
@@ -291,9 +297,6 @@ function App() {
           });
         });
         setFavoriteMovies(movies);
-        if (moviesInView.length > 0) {
-          setMoviesInView(checkIsListOfMovies(moviesInView));
-        }
         localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
       })
       .catch((err) => {
@@ -310,10 +313,12 @@ function App() {
   function searchInFavoriteMovies(query) {
     const { text } = query;
 
+    if (text === '') {
+      return;
+    }
+
     let filtredMovies = [];
-
-    SetIsFilmNotFound(false);
-
+    setIsFilmNotFound(false);
     setFormSubmitStateData({
       ...formSubmitStateData,
       isLoading: true,
@@ -321,15 +326,13 @@ function App() {
     MoviesApi.getUserMovies()
       .then((data) => {
         filtredMovies = filterMovieByQuery(data, text);
-
         if (isShortFilmInSavedMovies) {
           filtredMovies = filterMovieByDuration(filtredMovies);
         }
 
-        if (filtredMovies.some((movie) => movie === undefined)) {
-          throw new NotFoundError();
+        if (filtredMovies.every((item) => item === false)) {
+          setIsFilmNotFound(true);
         }
-
         setFavoriteMovies(filtredMovies);
         localStorage.setItem(
           'savedMovieQueryData',
@@ -341,11 +344,7 @@ function App() {
         );
       })
       .catch((err) => {
-        if (err.statusCode === 404) {
-          SetIsFilmNotFound(true);
-        } else {
-          errorHandler(err);
-        }
+        errorHandler(err);
       })
       .finally(() => {
         setFormSubmitStateData({
@@ -357,68 +356,61 @@ function App() {
 
   function searchFilmHandler(query) {
     const { text } = query;
-
+    if (text === '') {
+      return;
+    }
     setMoviesInView([]);
-
     let filtredMovies = [];
-    SetIsFilmNotFound(false);
+    setIsFilmNotFound(false);
     setFormSubmitStateData({
       ...formSubmitStateData,
       isLoading: true,
     });
-    MoviesApi.getMovies()
-      .then((data) => {
-        filtredMovies = filterMovieByQuery(data, text);
 
-        if (isShortFilm) {
-          filtredMovies = filterMovieByDuration(filtredMovies);
-        }
+    const moviesDB = JSON.parse(localStorage.getItem('moviesDB'));
 
-        filtredMovies.forEach((movie) => {
-          if (handleCheckIsFilmFavorite(movie.id)) {
-            movie['isFavoriteMovie'] = true;
-          } else {
-            movie['isFavoriteMovie'] = false;
-          }
-        });
+    filtredMovies = filterMovieByQuery(moviesDB, text);
 
-        if (filtredMovies.length === 0) {
-          throw new NotFoundError();
-        }
+    if (isShortFilm) {
+      filtredMovies = filterMovieByDuration(filtredMovies);
+    }
+    checkIsFavoriteMoviesIn(filtredMovies);
 
-        setMoviesInView(filtredMovies);
-        localStorage.setItem(
-          'movieQueryData',
-          JSON.stringify({
-            query: text,
-            isInputChecked: isShortFilm,
-            films: filtredMovies,
-          })
-        );
-      })
-      .catch((err) => {
-        if (err.statusCode === 404) {
-          SetIsFilmNotFound(true);
-        } else {
-          errorHandler(err);
-        }
-      })
-      .finally(() => {
-        setFormSubmitStateData({
-          ...formSubmitStateData,
-          isLoading: false,
-        });
-      });
+    if (filtredMovies.every((item) => item === false)) {
+      setIsFilmNotFound(true);
+    } else {
+      setMoviesInView(filtredMovies);
+      localStorage.setItem(
+        'movieQueryData',
+        JSON.stringify({
+          query: text,
+          isInputChecked: isShortFilm,
+          films: filtredMovies,
+        })
+      );
+    }
+    setFormSubmitStateData({
+      ...formSubmitStateData,
+      isLoading: false,
+    });
   }
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('movieQueryData'));
+
+    searchFilmHandler({ text: data.query });
+  }, [isShortFilm]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('savedMovieQueryData'));
+
+    searchInFavoriteMovies({ text: data.query });
+  }, [isShortFilmInSavedMovies]);
 
   function handleSaveMove(id) {
     setIsControlBtnUsed(true);
     const currentMovie = moviesInView.find((movie) => movie.id === id);
-    if (
-      favoriteMovies &&
-      favoriteMovies.length > 0 &&
-      handleCheckIsFilmFavorite(id)
-    ) {
+    if (handleCheckIsFilmFavorite(id)) {
       return;
     }
 
@@ -449,9 +441,6 @@ function App() {
     })
       .then((movies) => {
         setFavoriteMovies([...favoriteMovies, movies]);
-        if (moviesInView.some((item) => item !== false)) {
-          setMoviesInView(checkIsListOfMovies(moviesInView));
-        }
       })
       .catch((err) => {
         errorHandler(err);
@@ -472,10 +461,6 @@ function App() {
           (movie) => movie.movieId !== id
         );
         setFavoriteMovies(listOfFavoriteMovies);
-
-        if (moviesInView.some((item) => item !== false)) {
-          setMoviesInView(checkIsListOfMovies(moviesInView));
-        }
       })
       .catch((err) => {
         errorHandler(err);
@@ -486,19 +471,34 @@ function App() {
   }
 
   useEffect(() => {
+    if (favoriteMovies === undefined || moviesInView === undefined) {
+      setFilmServiceAreNotAvalible(true);
+    } else {
+      setFilmServiceAreNotAvalible(false);
+    }
+  }, [favoriteMovies, moviesInView]);
+  useEffect(() => {
+    setMoviesInView(checkIsFavoriteMoviesIn(moviesInView));
+  }, [favoriteMovies, moviesInView]);
+
+  useEffect(() => {
     if (isLoggedIn) {
-      const queryData = JSON.parse(localStorage.getItem('movieQueryData'));
-      const savedMoviesQueryData = JSON.parse(
-        localStorage.getItem('savedMovieQueryData')
-      );
-      if (queryData) {
-        setIsShortFilm(queryData.isInputChecked);
-        setMoviesInView(queryData.films);
+      const moviesDataBase = localStorage.getItem('moviesDB');
+      if (!moviesDataBase) {
+        MoviesApi.getMovies()
+          .then((data) => {
+            localStorage.setItem('moviesDB', JSON.stringify(data));
+          })
+          .catch((err) => {
+            errorHandler(err);
+          });
       }
-      if (savedMoviesQueryData) {
-        setIsShortFilm(queryData.isInputChecked);
-        setMoviesInView(queryData.films);
-      }
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setMoviesInView(JSON.parse(localStorage.getItem('movieQueryData')).films);
     }
   }, [isLoggedIn]);
 
@@ -507,15 +507,14 @@ function App() {
     let storageData = JSON.parse(localStorage.getItem('movieQueryData'));
 
     if (storageData) {
-      checkIsListOfMovies(moviesInView);
       localStorage.setItem('movieQueryData', JSON.stringify(storageData));
-      setMoviesInView(moviesInView);
+      setMoviesInView(storageData.films);
     }
   }, [isControlBtnUsed]);
 
   useEffect(() => {
     const jwt = document.cookie.split('=');
-
+    console.log(jwt[1]);
     if (jwt[1]) {
       checkToken();
       setIsLoggedIn(true);
@@ -546,6 +545,7 @@ function App() {
                     handleSaveFilm={handleSaveMove}
                     isMovieAdd={isControlBtnUsed}
                     checkIsFavoriteFilm={handleCheckIsFilmFavorite}
+                    filmServiceAreNotAvalible={filmServiceAreNotAvalible}
                   />
                 }
               />
@@ -560,6 +560,7 @@ function App() {
                     changeDurationSearchQuery={setIsShortFilmInSavedMovies}
                     isShortFilm={isShortFilmInSavedMovies}
                     handleSearchMovies={searchInFavoriteMovies}
+                    filmServiceAreNotAvalible={filmServiceAreNotAvalible}
                   />
                 }
               />

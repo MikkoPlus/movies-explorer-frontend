@@ -11,7 +11,8 @@ export const errorMessages = {
   forbidenMsg: 'Ошибка прав доступа',
   defaultMsg: 'Внутренняя ошибка сервера',
   searchRequestIsEmptyMsg: 'Введите ключевое слово',
-  filmServiceIsNotAvalible:
+  filmsNotFoundMsg: 'Ничего не найдено',
+  filmServiceAreNotAvalibleMsg:
     'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз',
 };
 

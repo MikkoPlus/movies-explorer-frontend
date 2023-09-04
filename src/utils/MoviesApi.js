@@ -1,5 +1,7 @@
+// const DATA_BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+// const DATA_BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 const DATA_BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
-const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs/movies';
+const BASE_URL = 'http://localhost:3001/movies';
 
 const request = (url, options) => {
   return fetch(`${url}`, {

@@ -17,23 +17,14 @@ function SavedMovies({
   changeDurationSearchQuery,
   isShortFilm,
   handleSearchMovies,
+  filmServiceAreNotAvalible,
 }) {
   const { isLoading } = useContext(ApiSubmitFormContext);
   const [moviesInView, setMoviesInView] = useState([]);
-  const [previousQueryText, setPreviousQueryText] = useState('');
 
   useEffect(() => {
     setMoviesInView(movies);
   }, [movies, isFilmAdded]);
-
-  useEffect(() => {
-    const previousQuery = JSON.parse(
-      localStorage.getItem('savedMovieQueryData')
-    );
-    if (previousQuery) {
-      setPreviousQueryText(previousQuery.query);
-    }
-  }, []);
 
   return (
     <div className='saved-movies'>
@@ -43,7 +34,6 @@ function SavedMovies({
           searchMovieHandler={handleSearchMovies}
           changeDurationSearchQuery={changeDurationSearchQuery}
           isShortFilm={isShortFilm}
-          previousQueryText={previousQueryText}
         />
         <Delimeter />
         <MoviesCardList
@@ -51,6 +41,7 @@ function SavedMovies({
           isLoading={isLoading}
           isFilmNotFound={isFilmNotFound}
           handleCardButtonClick={handleDeleteMovie}
+          filmServiceAreNotAvalible={filmServiceAreNotAvalible}
         />
       </main>
       <Footer />
