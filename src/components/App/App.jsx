@@ -1,4 +1,5 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
@@ -47,6 +48,7 @@ function App() {
     useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     successRegistered,
@@ -269,7 +271,11 @@ function App() {
 
   // Movies api
   function checkIsFavoriteMoviesIn(movieList) {
-    movieList.forEach((movie) => {
+    if (movieList === null) {
+      setFilmServiceAreNotAvalible(true);
+    }
+    setFilmServiceAreNotAvalible(false);
+    movieList?.forEach((movie) => {
       if (handleCheckIsFilmFavorite(movie.id)) {
         movie['isFavoriteMovie'] = true;
       } else {
@@ -395,18 +401,6 @@ function App() {
     });
   }
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('movieQueryData'));
-
-    searchFilmHandler({ text: data.query });
-  }, [isShortFilm]);
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('savedMovieQueryData'));
-
-    searchInFavoriteMovies({ text: data.query });
-  }, [isShortFilmInSavedMovies]);
-
   function handleSaveMove(id) {
     setIsControlBtnUsed(true);
     const currentMovie = moviesInView.find((movie) => movie.id === id);
@@ -471,15 +465,32 @@ function App() {
   }
 
   useEffect(() => {
-    if (favoriteMovies === undefined || moviesInView === undefined) {
-      setFilmServiceAreNotAvalible(true);
-    } else {
-      setFilmServiceAreNotAvalible(false);
-    }
-  }, [favoriteMovies, moviesInView]);
-  useEffect(() => {
     setMoviesInView(checkIsFavoriteMoviesIn(moviesInView));
   }, [favoriteMovies, moviesInView]);
+
+  useEffect(() => {
+    getFavoriteMovies();
+    let storageData = JSON.parse(localStorage.getItem('movieQueryData'));
+
+    if (storageData) {
+      localStorage.setItem('movieQueryData', JSON.stringify(storageData));
+      setMoviesInView(storageData.films);
+    }
+  }, [isControlBtnUsed]);
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      const data = JSON.parse(localStorage.getItem('movieQueryData'));
+      if (data) {
+        searchFilmHandler({ text: data.query });
+      }
+    } else if (location.pathname === '/saved-movies') {
+      const data = JSON.parse(localStorage.getItem('savedMovieQueryData'));
+      if (data) {
+        searchInFavoriteMovies({ text: data.query });
+      }
+    }
+  }, [isShortFilmInSavedMovies, isShortFilm, location.pathname]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -493,28 +504,28 @@ function App() {
             errorHandler(err);
           });
       }
+
+      const searchQueryData = JSON.parse(
+        localStorage.getItem('movieQueryData')
+      );
+      if (searchQueryData) {
+        searchFilmHandler({ text: searchQueryData.query });
+        setIsShortFilm(searchQueryData.isInputChecked);
+      }
+      const savedMovieSearchQueryData = JSON.parse(
+        localStorage.getItem('savedMovieQueryData')
+      );
+      if (savedMovieSearchQueryData) {
+        setIsShortFilmInSavedMovies(savedMovieSearchQueryData.isInputChecked);
+        setFavoriteMovies(savedMovieSearchQueryData.films);
+      }
     }
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      setMoviesInView(JSON.parse(localStorage.getItem('movieQueryData')).films);
-    }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    getFavoriteMovies();
-    let storageData = JSON.parse(localStorage.getItem('movieQueryData'));
-
-    if (storageData) {
-      localStorage.setItem('movieQueryData', JSON.stringify(storageData));
-      setMoviesInView(storageData.films);
-    }
-  }, [isControlBtnUsed]);
+  useEffect(() => {}, [location.pathname]);
 
   useEffect(() => {
     const jwt = document.cookie.split('=');
-    console.log(jwt[1]);
     if (jwt[1]) {
       checkToken();
       setIsLoggedIn(true);

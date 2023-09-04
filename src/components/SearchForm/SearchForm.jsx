@@ -20,12 +20,12 @@ function SearchForm({
   useEffect(() => {
     const { pathname } = location;
     if (pathname === '/movies') {
-      const query = JSON.parse(localStorage.getItem('movieQueryData')).query;
+      const query = JSON.parse(localStorage?.getItem('movieQueryData'))?.query;
       values.text = query;
     } else if (pathname === '/saved-movies') {
-      const query = JSON.parse(
-        localStorage.getItem('savedMovieQueryData')
-      ).query;
+      const query = JSON?.parse(
+        localStorage?.getItem('savedMovieQueryData')
+      )?.query;
       values.text = query;
     }
   }, []);
