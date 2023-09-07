@@ -6,7 +6,7 @@ function NotFoundPage(props) {
 
   function redirectToPreviousPage(e) {
     e.preventDefault();
-    navigate(-1);
+    navigate('/');
   }
 
   return (
