@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 
-export function useWindowWidthEventListener(setIsMobileVersion) {
+export function useWindowWidthEventListener(whatsDeviceUsed) {
   useEffect(() => {
     const handleWindowResize = () => {
       setTimeout(() => {
-        if (window.innerWidth < 470) {
-          setIsMobileVersion(true);
+        if (window.innerWidth < 565) {
+          whatsDeviceUsed('mobile');
+        } else if (window.innerWidth > 565 && window.innerWidth < 864) {
+          whatsDeviceUsed('tablet');
         } else {
-          setIsMobileVersion(false);
+          whatsDeviceUsed('desktop');
         }
       }, 3000);
     };

@@ -1,6 +1,6 @@
 function filterMovieByQuery(movieList, query) {
   const moviesArr = [];
-  let req = query.toLowerCase();
+  let req = query?.toLowerCase();
 
   movieList?.map((movie) => {
     const { nameRU, nameEN } = movie;

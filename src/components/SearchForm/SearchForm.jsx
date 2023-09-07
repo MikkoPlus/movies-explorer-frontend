@@ -1,34 +1,40 @@
-import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import { useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Form from '../singleComponents/Form/Form';
 import Input from '../singleComponents/Input/Input';
 import { errorMessages } from '../../utils/constants';
+
 import './SearchForm.css';
 
 function SearchForm({
   searchMovieHandler,
   changeDurationSearchQuery,
   isShortFilm,
+  isFormValueEmpty,
 }) {
-  const { values, handleChange, errors } = useFormAndValidation();
-  const { text } = values;
   const { searchRequestIsEmptyMsg } = errorMessages;
+
+  const [inputValue, setInputValue] = useState('');
+
+  function handleInputChange(e) {
+    setInputValue(e.target.value);
+  }
 
   const location = useLocation();
 
   useEffect(() => {
     const { pathname } = location;
     if (pathname === '/movies') {
-      const query = JSON.parse(localStorage?.getItem('movieQueryData'))?.query;
-      values.text = query;
-    } else if (pathname === '/saved-movies') {
-      const query = JSON?.parse(
-        localStorage?.getItem('savedMovieQueryData')
+      const previousQueryText = JSON.parse(
+        localStorage?.getItem('movieQueryData')
       )?.query;
-      values.text = query;
+
+      if (previousQueryText) {
+        setInputValue(previousQueryText);
+      }
     }
-  }, []);
+  }, [location]);
 
   return (
     <div className='search'>
@@ -37,17 +43,17 @@ function SearchForm({
           additionalBtnClass='search__form-btn'
           additionalFormClass='search__form'
           btnText='Найти'
-          isFormValid={true}
           handleSubmitForm={searchMovieHandler}
-          formValues={values}
+          formValues={{ text: inputValue }}
+          isFormValid={true}
           novalidate={true}
         >
           <Input
             placeholder='Фильм'
             name='text'
             type='text'
-            value={text}
-            onChange={handleChange}
+            onChange={(e) => handleInputChange(e)}
+            value={inputValue}
             labelClass='search__label'
             inputClass='search__input'
           />
@@ -64,7 +70,7 @@ function SearchForm({
           </div>
         </div>
       </div>
-      {errors.text && (
+      {isFormValueEmpty && (
         <p className='search-form__error search-form__error_mobile'>
           {searchRequestIsEmptyMsg}
         </p>
@@ -80,7 +86,7 @@ function SearchForm({
           <label className='search__radio-btn-descr'>Короткометражки</label>
         </div>
       </div>
-      {errors.text && (
+      {isFormValueEmpty && (
         <p className='search-form__error'>{searchRequestIsEmptyMsg}</p>
       )}
     </div>

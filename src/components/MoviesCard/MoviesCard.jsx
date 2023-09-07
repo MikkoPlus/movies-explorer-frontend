@@ -10,6 +10,7 @@ function MoviesCard({
   filmId,
   imagePath,
   onCardButtonClick,
+  onLikedButtonClick,
 }) {
   const location = useLocation();
   const isSavedMoviesPage = location.pathname === '/saved-movies';
@@ -49,7 +50,10 @@ function MoviesCard({
           {isFavoriteMovie && (
             <>
               {!isSavedMoviesPage && (
-                <button className='movie-card__control movie-card__control_saved'>
+                <button
+                  onClick={() => onLikedButtonClick(filmId)}
+                  className='movie-card__control movie-card__control_saved'
+                >
                   &#10003;
                 </button>
               )}

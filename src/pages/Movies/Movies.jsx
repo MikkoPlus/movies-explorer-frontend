@@ -18,13 +18,15 @@ function Movies({
   isFilmNotFound,
   handleSaveFilm,
   filmServiceAreNotAvalible,
+  isSearchFormEmpty,
+  onLikedButtonClick,
 }) {
   const { isLoading } = useContext(ApiSubmitFormContext);
   const [moviesInView, setMoviesInView] = useState([]);
   const [previousQueryText, setPreviousQueryText] = useState('');
-  const [movieIndex, setMovieIndex] = useState();
+  const [movieIndex, setMovieIndex] = useState(Number);
   const [isButtonVisible, setIsButtonVisible] = useState(Boolean);
-  const [isMobileVersion, setIsMobileVersion] = useState(false);
+  const [device, setDevice] = useState('desktop');
 
   function createInitialMoviesInView(movieList, count) {
     if (!movieList || movieList === null) {
@@ -41,8 +43,8 @@ function Movies({
   }
 
   function onButtonClick() {
-    if (!isMobileVersion) {
-      switch (movies.length - movieIndex) {
+    if (device === 'desktop') {
+      switch (movies?.length - movieIndex) {
         case 2:
           setMovieIndex(movieIndex + 2);
           setIsButtonVisible(false);
@@ -57,9 +59,12 @@ function Movies({
         }
         default:
           setMovieIndex(movieIndex + 3);
+          if (movieIndex + 3 === movies.length) {
+            setIsButtonVisible(false);
+          }
       }
     } else {
-      switch (movies.length - movieIndex) {
+      switch (movies?.length - movieIndex) {
         case 1:
           setMovieIndex(movieIndex + 1);
           setIsButtonVisible(false);
@@ -75,17 +80,16 @@ function Movies({
   }
 
   useEffect(() => {
-    if (movies?.length > 0) {
-      if (movies?.length > 12) {
-        setIsButtonVisible(true);
-      } else {
-        setMovieIndex(movies.length);
-        setIsButtonVisible(false);
-      }
-      const initialMovies = createInitialMoviesInView(movies, movieIndex);
-      setMoviesInView(initialMovies);
+    if (movies?.length > 12) {
+      setIsButtonVisible(true);
+      whatDeviceUsed();
+    } else {
+      setMovieIndex(movies?.length);
+      setIsButtonVisible(false);
     }
-  }, [movies]);
+    const initialMovies = createInitialMoviesInView(movies, movieIndex);
+    setMoviesInView(initialMovies);
+  }, [movies, isShortFilm]);
 
   useEffect(() => {
     const additionalMovies = createInitialMoviesInView(movies, movieIndex);
@@ -99,11 +103,21 @@ function Movies({
     }
   }, []);
 
-  useEffect(() => {
-    setMovieIndex(isMobileVersion ? 5 : 12);
-  }, [isMobileVersion]);
+  function whatDeviceUsed() {
+    if (device === 'mobile') {
+      setMovieIndex(5);
+    } else if (device === 'tablet') {
+      setMovieIndex(8);
+    } else if (device === 'desktop') {
+      setMovieIndex(12);
+    }
+  }
 
-  useWindowWidthEventListener(setIsMobileVersion);
+  useEffect(() => {
+    whatDeviceUsed();
+  }, [device]);
+
+  useWindowWidthEventListener(setDevice);
 
   return (
     <div className='movies'>
@@ -114,6 +128,7 @@ function Movies({
           changeDurationSearchQuery={changeDurationSearchQuery}
           isShortFilm={isShortFilm}
           previousQueryText={previousQueryText}
+          isFormValueEmpty={isSearchFormEmpty}
         />
         <Delimeter />
         <MoviesCardList
@@ -124,6 +139,7 @@ function Movies({
           isFilmNotFound={isFilmNotFound}
           handleCardButtonClick={handleSaveFilm}
           filmServiceAreNotAvalible={filmServiceAreNotAvalible}
+          onLikedButtonClick={onLikedButtonClick}
         />
       </main>
       <Footer />

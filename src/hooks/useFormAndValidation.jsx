@@ -11,20 +11,21 @@ export function useFormAndValidation() {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: e.target.validationMessage });
+    setIsValid(e.target.closest('form').checkValidity());
 
     if (name === 'username' && value !== '' && !usernameRegexp.test(value)) {
       setErrors({
         ...errors,
         [name]: errorMessages.invalidUsernameMsg,
       });
+      setIsValid(false);
     } else if (name === 'email' && !EmailValidator.validate(value)) {
       setErrors({
         ...errors,
         [name]: errorMessages.invalidEmailMsg,
       });
+      setIsValid(false);
     }
-
-    setIsValid(e.target.closest('form').checkValidity());
   };
 
   const resetForm = useCallback(

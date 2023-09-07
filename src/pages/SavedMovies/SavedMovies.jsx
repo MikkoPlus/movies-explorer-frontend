@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
 
 import Header from '../../components/Header/Header';
@@ -13,18 +13,13 @@ function SavedMovies({
   movies,
   isFilmNotFound,
   handleDeleteMovie,
-  isFilmAdded,
   changeDurationSearchQuery,
   isShortFilm,
   handleSearchMovies,
   filmServiceAreNotAvalible,
+  isSearchFormEmpty,
 }) {
   const { isLoading } = useContext(ApiSubmitFormContext);
-  const [moviesInView, setMoviesInView] = useState([]);
-
-  useEffect(() => {
-    setMoviesInView(movies);
-  }, [movies, isFilmAdded]);
 
   return (
     <div className='saved-movies'>
@@ -34,10 +29,11 @@ function SavedMovies({
           searchMovieHandler={handleSearchMovies}
           changeDurationSearchQuery={changeDurationSearchQuery}
           isShortFilm={isShortFilm}
+          isFormValueEmpty={isSearchFormEmpty}
         />
         <Delimeter />
         <MoviesCardList
-          movieList={moviesInView}
+          movieList={movies}
           isLoading={isLoading}
           isFilmNotFound={isFilmNotFound}
           handleCardButtonClick={handleDeleteMovie}

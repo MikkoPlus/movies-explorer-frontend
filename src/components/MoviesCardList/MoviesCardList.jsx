@@ -13,6 +13,7 @@ function MoviesCardList({
   handleAddButtonClick,
   isFilmNotFound,
   handleCardButtonClick,
+  onLikedButtonClick,
 }) {
   const { filmsNotFoundMsg, filmServiceAreNotAvalibleMsg } = errorMessages;
   const location = useLocation();
@@ -27,6 +28,9 @@ function MoviesCardList({
                 location.pathname === '/movies' ? (
                   <ul className='movies-cards__list'>
                     {movieList?.map((movie) => {
+                      if (movie === undefined) {
+                        return;
+                      }
                       const {
                         id,
                         trailerLink,
@@ -45,6 +49,7 @@ function MoviesCardList({
                           key={id}
                           filmId={id}
                           onCardButtonClick={handleCardButtonClick}
+                          onLikedButtonClick={onLikedButtonClick}
                         />
                       );
                     })}

@@ -53,10 +53,10 @@
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 864px) {
   .movies-cards__list {
     row-gap: 46px;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-template-columns: repeat(2, minmax(210px, 1fr));
   }
   .movies-cards__add-btn {
     margin-top: 59px;
@@ -70,6 +70,7 @@
   .movies-cards__list {
     padding: 0 10px;
     row-gap: 36px;
+    grid-template-columns: 1fr;
   }
 }
 
