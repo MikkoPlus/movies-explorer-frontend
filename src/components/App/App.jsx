@@ -1,12 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import {
-  Routes,
-  Route,
-  useNavigate,
-  useLocation,
-  Navigate,
-} from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
 import { LoggedInContext } from '../../contexts/LoggedInContext';
@@ -22,6 +16,7 @@ import Movies from '../../pages/Movies/Movies';
 import SavedMovies from '../../pages/SavedMovies/SavedMovies';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import ProtectedRouteElement from '../../components/singleComponents/ProtectedRouteElement/ProtectedRouteElement';
+import UnsignedRouteElement from '../../components/singleComponents/UnsignedRouteElement/UnsignedRouteElement';
 import Popup from '../singleComponents/Popup/Popup';
 
 import * as MainApi from '../../utils/MainApi.js';
@@ -547,25 +542,23 @@ function App() {
   }, [isShortFilm, isShortFilmInSavedMovies]);
 
   useEffect(() => {
-    const { pathname } = location;
     checkToken();
-    if (!isLoggedIn) {
-      if (pathname === '/sign-in' || pathname === '/sign-up') {
-        navigate(pathname, { replace: true });
-      } else if (
-        pathname === '/movies' ||
-        pathname === '/saved-movies' ||
-        pathname === '/profile'
-      ) {
-        navigate('/sign-in', { replace: true });
-      }
-    }
-    if (isLoggedIn) {
-      if (pathname === '/sign-in' || pathname === '/sign-up') {
-        navigate(-2, { replace: true });
-      }
-    }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    checkToken();
+
+    const { pathname } = location;
+    if (pathname === '/movies') {
+      localStorage.setItem('lastVisit', '/movies');
+    }
+    if (pathname === '/saved-movies') {
+      localStorage.setItem('lastVisit', '/saved-movies');
+    }
+    if (pathname === '/profile') {
+      localStorage.setItem('lastVisit', '/profile');
+    }
+  }, [location.pathname, isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -588,6 +581,7 @@ function App() {
                     filmServiceAreNotAvalible={filmServiceAreNotAvalible}
                     isSearchFormEmpty={isSearchFormEmpty}
                     onLikedButtonClick={handleDeleteMovie}
+                    isLoggedIn={isLoggedIn}
                   />
                 }
               />
@@ -604,16 +598,29 @@ function App() {
                     filmServiceAreNotAvalible={filmServiceAreNotAvalible}
                     isSearchFormEmpty={isSearchFormEmpty}
                     isFilmNotFound={isFilmNotFound}
+                    isLoggedIn={isLoggedIn}
                   />
                 }
               />
               <Route
                 path='/sign-in'
-                element={<Login onLogin={handleLogin} />}
+                element={
+                  <UnsignedRouteElement
+                    element={Login}
+                    onLogin={handleLogin}
+                    isLoggedIn={isLoggedIn}
+                  />
+                }
               />
               <Route
                 path='/sign-up'
-                element={<Register onRegister={handleRegister} />}
+                element={
+                  <UnsignedRouteElement
+                    element={Register}
+                    onRegister={handleRegister}
+                    isLoggedIn={isLoggedIn}
+                  />
+                }
               />
               <Route
                 path='/profile'
@@ -624,6 +631,7 @@ function App() {
                     handleLogOut={handleLogOut}
                     switchEditMode={setIsEditModeOn}
                     isEditModeOn={isEditModeOn}
+                    isLoggedIn={isLoggedIn}
                   />
                 }
               />
