@@ -1,5 +1,4 @@
-// export const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs';
-export const BASE_URL = 'http://localhost:3001';
+export const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs';
 
 const request = (url, options) => {
   return fetch(`${BASE_URL}/${url}`, {

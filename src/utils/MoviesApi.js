@@ -1,6 +1,5 @@
 const DATA_BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
-// const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs/movies';
-const BASE_URL = 'http://localhost:3001/movies';
+const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs/movies';
 
 const request = (url, options) => {
   return fetch(`${url}`, {
@@ -26,7 +25,8 @@ export const getUserMovies = () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3001/movies',
+      'Access-Control-Allow-Origin':
+        'https://api.movie-hunter.nomoreparties.sbs/movies',
     },
     credentials: 'include',
   });
@@ -37,7 +37,8 @@ export const createMovie = (body) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3001/movies',
+      'Access-Control-Allow-Origin':
+        'https://api.movie-hunter.nomoreparties.sbs/movies',
     },
     credentials: 'include',
     body: JSON.stringify(body),
@@ -49,7 +50,8 @@ export const deleteMovie = (id) => {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3001/movies',
+      'Access-Control-Allow-Origin':
+        'https://api.movie-hunter.nomoreparties.sbs/movies',
     },
     credentials: 'include',
   });
