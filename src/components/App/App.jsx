@@ -224,6 +224,7 @@ function App() {
           navigate('/');
           localStorage.removeItem('movieQueryData');
           localStorage.removeItem('moviesDB');
+          localStorage.removeItem('lastVisit');
           setMoviesInView([]);
           setIsShortFilm(false);
         }, 1300);
