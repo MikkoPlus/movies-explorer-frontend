@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  Navigate,
+} from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
 import { LoggedInContext } from '../../contexts/LoggedInContext';
@@ -42,7 +48,6 @@ function App() {
   const [filmServiceAreNotAvalible, setFilmServiceAreNotAvalible] =
     useState(false);
   const [isSearchFormEmpty, setIsSearchFormEmpty] = useState(false);
-  const [isTokenValid, setIsTokenValid] = useState(false);
   const [moviesInView, setMoviesInView] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [favoriteMoviesList, setFavoriteMoviesList] = useState([]);
@@ -221,7 +226,6 @@ function App() {
           setIsPopupOpen(false);
           setIsLoggedIn(false);
           setCurrentUser({});
-          setIsTokenValid(false);
           navigate('/');
           localStorage.removeItem('movieQueryData');
           localStorage.removeItem('moviesDB');
@@ -260,10 +264,10 @@ function App() {
           name: data.name,
           email: data.email,
         });
-        setIsTokenValid(true);
+        setIsLoggedIn(true);
       })
       .catch(() => {
-        setIsTokenValid(false);
+        setIsLoggedIn(false);
       });
   }
 
@@ -461,6 +465,11 @@ function App() {
     }, 100);
   }
 
+  useSkipFirstRender(() => {
+    checkToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     setMoviesInView(checkIsFavoriteMoviesIn(moviesInView));
   }, [favoriteMovies, moviesInView]);
@@ -537,39 +546,26 @@ function App() {
     }
   }, [isShortFilm, isShortFilmInSavedMovies]);
 
-  useSkipFirstRender(() => {
+  useEffect(() => {
     const { pathname } = location;
-
+    checkToken();
     if (!isLoggedIn) {
       if (pathname === '/sign-in' || pathname === '/sign-up') {
-        navigate(pathname);
+        navigate(pathname, { replace: true });
       } else if (
         pathname === '/movies' ||
         pathname === '/saved-movies' ||
         pathname === '/profile'
       ) {
-        navigate('/sign-in');
-      }
-    } else {
-      if (isTokenValid && isLoggedIn) {
-        if (pathname === '/sign-in' || pathname === '/sign-up') {
-          navigate('/movies');
-        } else {
-          navigate(pathname);
-        }
+        navigate('/sign-in', { replace: true });
       }
     }
-  }, [isLoggedIn, isTokenValid]);
-
-  useEffect(() => {
-    checkToken();
-    if (isTokenValid) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
+    if (isLoggedIn) {
+      if (pathname === '/sign-in' || pathname === '/sign-up') {
+        navigate(-2, { replace: true });
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTokenValid, location]);
+  }, [isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
