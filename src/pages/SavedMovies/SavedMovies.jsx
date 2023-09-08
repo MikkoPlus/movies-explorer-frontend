@@ -1,6 +1,3 @@
-import { useContext } from 'react';
-import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
-
 import Header from '../../components/Header/Header';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import Delimeter from '../../components/singleComponents/Delimeter/Delimeter';
@@ -18,9 +15,8 @@ function SavedMovies({
   handleSearchMovies,
   filmServiceAreNotAvalible,
   isSearchFormEmpty,
+  isLoading,
 }) {
-  const { isLoading } = useContext(ApiSubmitFormContext);
-
   return (
     <div className='saved-movies'>
       <Header />

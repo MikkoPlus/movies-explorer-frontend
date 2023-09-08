@@ -14,6 +14,7 @@ function MoviesCardList({
   isFilmNotFound,
   handleCardButtonClick,
   onLikedButtonClick,
+  checkIsFavoriteMovie,
 }) {
   const { filmsNotFoundMsg, filmServiceAreNotAvalibleMsg } = errorMessages;
   const location = useLocation();
@@ -31,14 +32,10 @@ function MoviesCardList({
                       if (movie === undefined) {
                         return;
                       }
-                      const {
-                        id,
-                        trailerLink,
-                        image,
-                        nameRU,
-                        duration,
-                        isFavoriteMovie,
-                      } = movie;
+                      const { id, trailerLink, image, nameRU, duration } =
+                        movie;
+
+                      const isFavoriteMovie = checkIsFavoriteMovie(id);
                       return (
                         <MoviesCard
                           isFavoriteMovie={isFavoriteMovie}

@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
-import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
+import { useState, useEffect } from 'react';
 
 import Header from '../../components/Header/Header';
 import SearchForm from '../../components/SearchForm/SearchForm';
@@ -7,6 +6,8 @@ import Delimeter from '../../components/singleComponents/Delimeter/Delimeter';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import Footer from '../../components/Footer/Footer';
 import { useWindowWidthEventListener } from '../../hooks/useWindowWidthEventListener';
+import { widthIndexes } from '../../utils/constants';
+import appFunctions from '../../utils/functions';
 
 import './Movies.css';
 
@@ -20,13 +21,15 @@ function Movies({
   filmServiceAreNotAvalible,
   isSearchFormEmpty,
   onLikedButtonClick,
+  isLoading,
+  checkIsFavoriteMovie,
 }) {
-  const { isLoading } = useContext(ApiSubmitFormContext);
   const [moviesInView, setMoviesInView] = useState([]);
   const [previousQueryText, setPreviousQueryText] = useState('');
   const [movieIndex, setMovieIndex] = useState(Number);
   const [isButtonVisible, setIsButtonVisible] = useState(Boolean);
-  const [device, setDevice] = useState('desktop');
+  const [device, setDevice] = useState('');
+  const { mobile, tablet, desktop } = widthIndexes;
 
   function createInitialMoviesInView(movieList, count) {
     if (!movieList || movieList === null) {
@@ -80,7 +83,7 @@ function Movies({
   }
 
   useEffect(() => {
-    if (movies?.length > 12) {
+    if (movies?.length > desktop) {
       setIsButtonVisible(true);
       whatDeviceUsed();
     } else {
@@ -105,17 +108,21 @@ function Movies({
 
   function whatDeviceUsed() {
     if (device === 'mobile') {
-      setMovieIndex(5);
+      setMovieIndex(mobile);
     } else if (device === 'tablet') {
-      setMovieIndex(8);
+      setMovieIndex(tablet);
     } else if (device === 'desktop') {
-      setMovieIndex(12);
+      setMovieIndex(desktop);
     }
   }
 
   useEffect(() => {
     whatDeviceUsed();
   }, [device]);
+
+  useEffect(() => {
+    appFunctions.screenWidthQualifer(setDevice);
+  }, []);
 
   useWindowWidthEventListener(setDevice);
 
@@ -140,6 +147,7 @@ function Movies({
           handleCardButtonClick={handleSaveFilm}
           filmServiceAreNotAvalible={filmServiceAreNotAvalible}
           onLikedButtonClick={onLikedButtonClick}
+          checkIsFavoriteMovie={checkIsFavoriteMovie}
         />
       </main>
       <Footer />

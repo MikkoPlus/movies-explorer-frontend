@@ -1,3 +1,5 @@
+import { shortFilmDuration, devicesWidth } from './constants';
+
 function filterMovieByQuery(movieList, query) {
   const moviesArr = [];
   let req = query?.toLowerCase();
@@ -21,7 +23,7 @@ function filterMovieByDuration(movieList) {
 
   movieList?.map((movie) => {
     const { duration } = movie;
-    if (Number(duration) <= 40) {
+    if (Number(duration) <= shortFilmDuration) {
       moviesArr.push(movie);
     }
     return moviesArr;
@@ -29,9 +31,44 @@ function filterMovieByDuration(movieList) {
   return moviesArr;
 }
 
+function filterMovieListByQuery(movieList, query, isShortFilm) {
+  let filtredMovies = [];
+
+  filtredMovies = filterMovieByQuery(movieList, query);
+  if (isShortFilm) {
+    filtredMovies = filterMovieByDuration(filtredMovies);
+  }
+
+  return filtredMovies;
+}
+
+function filterMoviesAfterDelete(movieList, id) {
+  return movieList.filter((movie) => movie.movieId !== id);
+}
+
+function screenWidthQualifer(deviceState) {
+  if (window.innerWidth < devicesWidth.mobile) {
+    deviceState('mobile');
+  } else if (
+    window.innerWidth > devicesWidth.mobile &&
+    window.innerWidth < devicesWidth.tabet
+  ) {
+    deviceState('tablet');
+  } else {
+    deviceState('desktop');
+  }
+}
+
 const filteredFilmsFunctions = {
   filterMovieByDuration,
   filterMovieByQuery,
+  filterMovieListByQuery,
+  filterMoviesAfterDelete,
 };
 
-export default filteredFilmsFunctions;
+const appFunctions = {
+  filteredFilmsFunctions,
+  screenWidthQualifer,
+};
+
+export default appFunctions;

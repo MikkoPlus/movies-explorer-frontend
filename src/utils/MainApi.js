@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs';
+import { BASE_URL } from './constants';
 
 const request = (url, options) => {
   return fetch(`${BASE_URL}/${url}`, {
@@ -6,7 +6,7 @@ const request = (url, options) => {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'https://movie-hunter.nomoreparties.sbs',
+      'Access-Control-Allow-Origin': 'http://localhost:3000',
     },
   }).then(getResponse);
 };

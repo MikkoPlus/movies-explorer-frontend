@@ -1,16 +1,11 @@
 import { useEffect } from 'react';
+import appFunctions from '../utils/functions.js';
 
 export function useWindowWidthEventListener(whatsDeviceUsed) {
   useEffect(() => {
     const handleWindowResize = () => {
       setTimeout(() => {
-        if (window.innerWidth < 565) {
-          whatsDeviceUsed('mobile');
-        } else if (window.innerWidth > 565 && window.innerWidth < 864) {
-          whatsDeviceUsed('tablet');
-        } else {
-          whatsDeviceUsed('desktop');
-        }
+        appFunctions.screenWidthQualifer(whatsDeviceUsed);
       }, 3000);
     };
 

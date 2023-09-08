@@ -1,3 +1,7 @@
+export const BASE_URL = 'https://api.movie-hunter.nomoreparties.sbs';
+export const DATA_BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+export const BASE_MOVIE_URL = `${BASE_URL}/movies`;
+
 export const usernameRegexp = /^[а-яА-ЯёЁa-zA-Z-\s]+$/iu;
 
 export const errorMessages = {
@@ -21,4 +25,17 @@ export const successMessages = {
   successLogin: 'Вы вошли в аккаунт',
   successLogout: 'Выход из аккаунта',
   successProfileChange: 'Профиль успешно обновлён',
+};
+
+export const shortFilmDuration = 40;
+
+export const widthIndexes = {
+  mobile: 5,
+  tablet: 8,
+  desktop: 12,
+};
+
+export const devicesWidth = {
+  mobile: 565,
+  tabet: 864,
 };
