@@ -9,13 +9,14 @@ function Login({ onLogin }) {
 
   return (
     <Sign
-      handleSubmit={onLogin}
       title='Рады видеть!'
       btnText='Войти'
       isFormValid={isValid}
       replaceText='Ещё не зарегистрированы?'
       replaceLinkText='Регистрация'
-      replaceLink='signup'
+      replaceLink='sign-up'
+      handleSubmit={onLogin}
+      formValues={values}
     >
       <Input
         type='email'

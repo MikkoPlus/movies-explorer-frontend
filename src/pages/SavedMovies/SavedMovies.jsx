@@ -1,35 +1,40 @@
-import { useContext } from 'react';
-import { ApiRequestLoadingContext } from '../../contexts/ApiRequestLoadingContext';
-
 import Header from '../../components/Header/Header';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import Delimeter from '../../components/singleComponents/Delimeter/Delimeter';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
-import MoviesCard from '../../components/MoviesCard/MoviesCard';
 import Footer from '../../components/Footer/Footer';
-import Preloader from '../../components/Preloader/Preloader';
 
 import './SavedMovies.css';
 
-function SavedMovies({ isLoggedIn }) {
-  const { isLoading } = useContext(ApiRequestLoadingContext);
-
+function SavedMovies({
+  movies,
+  isFilmNotFound,
+  handleDeleteMovie,
+  changeDurationSearchQuery,
+  isShortFilm,
+  handleSearchMovies,
+  filmServiceAreNotAvalible,
+  isSearchFormEmpty,
+  isLoading,
+}) {
   return (
     <div className='saved-movies'>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header />
       <main className='main'>
-        <SearchForm />
+        <SearchForm
+          searchMovieHandler={handleSearchMovies}
+          changeDurationSearchQuery={changeDurationSearchQuery}
+          isShortFilm={isShortFilm}
+          isFormValueEmpty={isSearchFormEmpty}
+        />
         <Delimeter />
-        <MoviesCardList>
-          {isLoading && <Preloader />}
-          {!isLoading && (
-            <>
-              <MoviesCard isFavoriteMovie={true} />
-              <MoviesCard isFavoriteMovie={true} />
-              <MoviesCard isFavoriteMovie={true} />
-            </>
-          )}
-        </MoviesCardList>
+        <MoviesCardList
+          movieList={movies}
+          isLoading={isLoading}
+          isFilmNotFound={isFilmNotFound}
+          handleCardButtonClick={handleDeleteMovie}
+          filmServiceAreNotAvalible={filmServiceAreNotAvalible}
+        />
       </main>
       <Footer />
     </div>

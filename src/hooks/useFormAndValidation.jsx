@@ -1,4 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
+import { usernameRegexp, errorMessages } from '../utils/constants';
+import * as EmailValidator from 'email-validator';
 
 export function useFormAndValidation() {
   const [values, setValues] = useState({});
@@ -9,10 +11,22 @@ export function useFormAndValidation() {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: e.target.validationMessage });
-    setIsValid(e.target.closest("form").checkValidity());
+    setIsValid(e.target.closest('form').checkValidity());
+
+    if (name === 'username' && value !== '' && !usernameRegexp.test(value)) {
+      setErrors({
+        ...errors,
+        [name]: errorMessages.invalidUsernameMsg,
+      });
+      setIsValid(false);
+    } else if (name === 'email' && !EmailValidator.validate(value)) {
+      setErrors({
+        ...errors,
+        [name]: errorMessages.invalidEmailMsg,
+      });
+      setIsValid(false);
+    }
   };
-
-
 
   const resetForm = useCallback(
     (newValues = {}, newErrors = {}, newIsValid = false) => {

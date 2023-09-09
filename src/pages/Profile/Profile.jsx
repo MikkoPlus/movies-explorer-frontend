@@ -1,39 +1,48 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { ApiSubmitFormContext } from '../../contexts/ApiSubmitFormContext';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 import Header from '../../components/Header/Header';
 import Title from '../../components/singleComponents/Title/Title';
 import Form from '../../components/singleComponents/Form/Form';
 import Input from '../../components/singleComponents/Input/Input';
-import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import Preloader from '../../components/Preloader/Preloader';
 
 import './Profile.css';
 
-function Profile({ isLoggedIn, handleChangeProfile, handleLogOut }) {
+function Profile({
+  switchEditMode,
+  isEditModeOn,
+  handleChangeProfile,
+  handleLogOut,
+}) {
   const { name, email } = useContext(CurrentUserContext);
-  const [isEditModeOn, setIsEditModeOn] = useState(false);
-  const { values, handleChange, errors, isValid, setValues } =
+  const { isLoading } = useContext(ApiSubmitFormContext);
+  const { values, handleChange, errors, isValid, setIsValid, setValues } =
     useFormAndValidation();
-
-  function switchEditMode() {
-    setIsEditModeOn(!isEditModeOn);
-  }
-
-  function onProfileFormSubmit(e) {
-    e.preventDefault();
-    handleChangeProfile();
-  }
 
   useEffect(() => {
     setValues({
       email: email,
-      name: name,
+      username: name,
     });
   }, [name, email, setValues, isEditModeOn]);
 
+  useEffect(() => {
+    if (name === values.username && email === values.email) {
+      setIsValid(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.username, values.email]);
+
+  useEffect(() => {
+    switchEditMode(false);
+  }, []);
+
   return (
     <section className='profile'>
-      <Header isLoggedIn={isLoggedIn} isAppPage={true}></Header>
+      <Header />
       <main className='profile__wrapper'>
         <Title additionalClass='profile__title' text={`Привет, ${name}!`} />
         {!isEditModeOn && (
@@ -62,7 +71,7 @@ function Profile({ isLoggedIn, handleChangeProfile, handleLogOut }) {
             </ul>
           </>
         )}
-
+        <Preloader onlyLoader={false} isLoading={isLoading} />
         {isEditModeOn && (
           <>
             <Form
@@ -70,17 +79,19 @@ function Profile({ isLoggedIn, handleChangeProfile, handleLogOut }) {
               additionalBtnClass='profile__button'
               btnText='Сохранить'
               isFormValid={isValid}
-              handleSubmitForm={onProfileFormSubmit}
+              handleSubmitForm={handleChangeProfile}
+              formValues={values}
             >
               <Input
-                type='name'
+                type='text'
                 placeholder='Ваше имя'
-                name='name'
-                value={values.name}
+                name='username'
+                value={values.username}
                 onChange={handleChange}
-                error={errors.name}
+                error={errors.username}
                 labelText='Имя'
                 labelClass='profile__label'
+                regExp='^[а-яА-ЯёЁa-zA-Z\s\-]+$'
               />
               <Input
                 type='email'
@@ -93,7 +104,7 @@ function Profile({ isLoggedIn, handleChangeProfile, handleLogOut }) {
                 labelClass='profile__label'
               />
             </Form>
-            <p onClick={() => switchEditMode()} className='profile__back'>
+            <p onClick={() => switchEditMode(true)} className='profile__back'>
               назад
             </p>
           </>

@@ -14,6 +14,7 @@ function Input({
   error,
   labelClass,
   inputClass,
+  regExp,
 }) {
   const [isDirty, setIsDirty] = useState(false);
 
@@ -37,6 +38,7 @@ function Input({
         value={value || ''}
         onChange={onChange}
         onBlur={() => setIsDirty(true)}
+        pattern={regExp}
       />
       {isDirty && (
         <span id='input-error' className='input__text-error'>

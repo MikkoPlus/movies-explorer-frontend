@@ -6,7 +6,9 @@ function Form({
   isFormValid,
   additionalBtnClass,
   additionalFormClass,
+  formValues,
   children,
+  novalidate,
 }) {
   const activeBtnClass = isFormValid
     ? 'form__btn'
@@ -14,8 +16,17 @@ function Form({
   const btnClass = additionalBtnClass
     ? `${activeBtnClass} ${additionalBtnClass}`
     : activeBtnClass;
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    handleSubmitForm(formValues);
+  };
+
   return (
-    <form className={`form ${additionalFormClass}`} onSubmit={handleSubmitForm}>
+    <form
+      noValidate={novalidate}
+      className={`form ${additionalFormClass}`}
+      onSubmit={handleSubmit}
+    >
       <div className='form__input-wrapper'>{children}</div>
       <button disabled={!isFormValid} className={btnClass}>
         {btnText}

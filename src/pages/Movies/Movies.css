@@ -3,3 +3,37 @@
   width: 100%;
   margin: 0 auto;
 }
+
+.movies__add-btn {
+  display: block;
+  margin: 34px auto 80px;
+  width: 320px;
+  background-color: #f9f9f9;
+  outline: none;
+  border: none;
+  border-radius: 6px;
+  padding: 11px 8px 9px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: #000;
+  opacity: 1;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+}
+.movies__add-btn:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .movies__add-btn {
+    margin-top: 19px;
+  }
+}
+
+@media (max-width: 410px) {
+  .movies__add-btn {
+    width: 240px;
+    margin-bottom: 44px;
+  }
+}

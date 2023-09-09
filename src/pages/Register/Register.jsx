@@ -1,11 +1,13 @@
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+
 import Sign from '../../components/singleComponents/Sign/Sign';
 import Input from '../../components/singleComponents/Input/Input';
+
 import './Register.css';
-import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 
 function Register({ onRegister }) {
   const { values, handleChange, errors, isValid } = useFormAndValidation();
-  const { name, email, password } = values;
+  const { username, email, password } = values;
 
   return (
     <Sign
@@ -15,17 +17,21 @@ function Register({ onRegister }) {
       isFormValid={isValid}
       replaceText='Уже зарегистрированы?'
       replaceLinkText='Войти'
-      replaceLink='signin'
+      replaceLink='sign-in'
+      formValues={{ ...values, name: username }}
     >
       <Input
-        type='name'
+        type='text'
         placeholder='Ваше имя'
-        name='name'
-        value={name}
+        name='username'
+        value={username}
         onChange={handleChange}
-        error={errors.name}
+        error={errors.username}
         labelText='Имя'
         labelClass='sign__label'
+        regExp='^[а-яА-ЯёЁa-zA-Z\s\-]+$'
+        minLength='2'
+        maxLength='30'
       />
       <Input
         type='email'

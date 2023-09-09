@@ -10,18 +10,19 @@
   align-items: center;
 }
 
-.navigation__sign_button {
+.navigation__link_button span {
+  display: block;
   padding: 8px 21px;
   flex-shrink: 0;
   border-radius: 3px;
   background-color: #000;
 }
 
-.navigation__sign .list-item__link {
+.navigation__link {
   color: #000;
 }
 
-.navigation__sign_button .list-item__link {
+.navigation__link_button span {
   color: #fff;
 }
 
@@ -146,7 +147,7 @@
     column-gap: 14px;
   }
 
-  .navigation__sign_button {
+  .navigation__link_button span {
     padding: 5px 12px;
   }
 
